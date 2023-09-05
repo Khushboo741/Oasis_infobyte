@@ -1,0 +1,58 @@
+import java.util.Random;
+import javax.swing.JOptionPane;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        int minNumber = 1;
+        int maxNumber = 100;
+        int maxAttempts = 10;
+        int currentScore = 0;
+        int totalScore = 0;
+        int rounds = 1;
+
+        JOptionPane.showMessageDialog(null, "Welcome to the Number Guessing Game!");
+
+        while (true) {
+            Random rand = new Random();
+            int generatedNumber = rand.nextInt(maxNumber - minNumber + 1) + minNumber;
+            int attempts = 0;
+
+            JOptionPane.showMessageDialog(null, "Round " + rounds + "\nGuess a number between 1 and 100.\nYou have "
+                    + maxAttempts + " attempts.");
+
+            while (attempts < maxAttempts) {
+                String input = JOptionPane.showInputDialog("Attempt " + (attempts + 1) + ":");
+                int guessedNumber = Integer.parseInt(input);
+
+                if (guessedNumber == generatedNumber) {
+                    currentScore = maxAttempts - attempts;
+                    totalScore += currentScore;
+                    JOptionPane.showMessageDialog(null, "Congratulations! You guessed the number!\n"
+                            + "Score for this round: " + currentScore + "\nTotal Score: " + totalScore);
+                    break;
+                } else if (guessedNumber < generatedNumber) {
+                    JOptionPane.showMessageDialog(null, "Try a higher number.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Try a lower number.");
+                }
+
+                attempts++;
+            }
+
+            if (attempts == maxAttempts) {
+                JOptionPane.showMessageDialog(null, "Out of attempts!\nThe number was: " + generatedNumber
+                        + "\nNo score awarded for this round.\nTotal Score: " + totalScore);
+            }
+
+            int choice = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Play Again?",
+                    JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.NO_OPTION) {
+                break;
+            }
+
+            rounds++;
+        }
+
+        JOptionPane.showMessageDialog(null, "Thanks for playing! Your final score: " + totalScore);
+    }
+}
